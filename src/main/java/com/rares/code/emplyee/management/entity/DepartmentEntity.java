@@ -1,16 +1,11 @@
 package com.rares.code.emplyee.management.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 @Entity
 @Data
@@ -18,15 +13,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Table(name = "departments")
+
 public class DepartmentEntity {
 
     @Column(name = "dept_id")
     @Id
-    @SequenceGenerator(
-            name = "dept_sequence",
-            sequenceName = "dept_sequence",
-            allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "dept_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String deptName;
     private String deptCode;
@@ -40,6 +32,6 @@ public class DepartmentEntity {
 //            referencedColumnName = "dept_id")
     @OneToMany (
             mappedBy = "departmentEntity",
-            fetch = FetchType.LAZY)
-    private List<EmployeeEntity> employeeEntityList = new ArrayList<>();;
+            cascade = CascadeType.ALL)
+    private List<EmployeeEntity> employeeEntityList = new ArrayList<>();
 }

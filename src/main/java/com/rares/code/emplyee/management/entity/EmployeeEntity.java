@@ -1,10 +1,7 @@
 package com.rares.code.emplyee.management.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "employees")
+
 public class EmployeeEntity {
 
 
@@ -24,14 +22,8 @@ public class EmployeeEntity {
     private String firstName;
     private String lastName;
     private String email;
+    private Integer workedHours;
 
-    @ManyToOne(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(
-            name = "dept_id",
-            referencedColumnName = "dept_id"
-    )
+    @ManyToOne
     private DepartmentEntity departmentEntity;
 }

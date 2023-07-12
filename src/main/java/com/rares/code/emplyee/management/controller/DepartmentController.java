@@ -22,4 +22,10 @@ public class DepartmentController {
     public Department createEntity(@RequestBody Department department) {
         return departmentService.createEntity(department);
     }
+
+
+    @PostMapping("/departments/{id}")
+    public Department addEmpForDept(@RequestBody Department department, @PathVariable("id") Long id) {
+        return departmentService.createEntity(department);
+    }
 }

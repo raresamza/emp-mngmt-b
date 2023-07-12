@@ -22,11 +22,13 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
+
         this.employeeService = employeeService;
     }
 
     @PostMapping("/employees")
     public Employee createEntity(@RequestBody Employee employee) {
+
         return employeeService.createEntity(employee);
     }
 
@@ -48,12 +50,31 @@ public class EmployeeController {
     public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long id) {
         Employee employee=null;
         employee=employeeService.getEmployeeById(id);
+        System.out.println("employee cu id:"+id+" a fost apelat");
         return ResponseEntity.ok(employee);
     }
+
+    @GetMapping("/employees/{id}/hours")
+    public ResponseEntity<Employee> getEmployeeWorkedHours(@PathVariable("id") Long id) {
+        Employee employee=null;
+        employee=employeeService.getEmployeeById(id);
+        System.out.println(employee.getWorkedHours()+" worked hours");
+        return ResponseEntity.ok(employee);
+    }
+
+
 
     @PutMapping("/employees/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable("id") Long id, @RequestBody Employee employee) {
         employee=employeeService.updateEmployee(id,employee);
         return ResponseEntity.ok(employee);
     }
+
+    @PutMapping("/employees/{id}/hours/{hour}")
+    public ResponseEntity<Employee> updateEmployeeWorkedHours(@PathVariable("id") Long id, @RequestBody Employee employee, @PathVariable("hour") Integer hours) {
+        employee=employeeService.updateEmployeeWorkedHours(id,employee,hours);
+        return ResponseEntity.ok(employee);
+    }
+
+//    "/employees/{id}/hours
 }

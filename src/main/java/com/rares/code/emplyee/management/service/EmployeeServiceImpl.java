@@ -5,11 +5,9 @@ import com.rares.code.emplyee.management.entity.EmployeeEntity;
 import com.rares.code.emplyee.management.model.Employee;
 import com.rares.code.emplyee.management.repository.EmployeeRepo;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -28,6 +26,8 @@ public class EmployeeServiceImpl implements EmployeeService{
         //sau get data from db cu entity si la controller pasezi employee
         EmployeeEntity employeeEntity = new EmployeeEntity();
         BeanUtils.copyProperties(employee,employeeEntity);
+        employeeEntity.setWorkedHours(0);
+        System.out.println(employeeEntity.getWorkedHours());
         employeeRepo.save(employeeEntity);
         return employee;
     }
@@ -39,7 +39,8 @@ public class EmployeeServiceImpl implements EmployeeService{
                 -> new Employee(employeeEntity.getId(),
                 employeeEntity.getFirstName(),
                 employeeEntity.getLastName(),
-                employeeEntity.getEmail()))
+                employeeEntity.getEmail(),
+                employeeEntity.getWorkedHours()))
                 .toList();
         return employees;
     }
@@ -67,6 +68,25 @@ public class EmployeeServiceImpl implements EmployeeService{
         employeeEntity.setEmail(employee.getEmail());
         employeeEntity.setFirstName(employee.getFirstName());
         employeeEntity.setLastName(employee.getLastName());
+        employeeEntity.setWorkedHours(employee.getWorkedHours());
+        employeeRepo.save(employeeEntity);
+        return employee;
+    }
+
+    @Override
+    public Integer getEmployeeWorkedHours(Long id) {
+        EmployeeEntity employeeEntity=employeeRepo.findById(id).get();
+        Employee employee=new Employee();
+        BeanUtils.copyProperties(employeeEntity,employee);
+        return employee.getWorkedHours();
+    }
+
+    @Override
+    public Employee updateEmployeeWorkedHours(Long id, Employee employee, Integer hours) {
+        EmployeeEntity employeeEntity=employeeRepo.findById(id).get();
+        employeeEntity.setWorkedHours(employeeEntity.getWorkedHours() + hours);
+        System.out.println(hours);
+        System.out.println(employeeEntity);
         employeeRepo.save(employeeEntity);
         return employee;
     }
